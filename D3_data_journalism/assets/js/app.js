@@ -1,4 +1,3 @@
-// @TODO: YOUR CODE HERE!
 var svgWidth = 960;
 var svgHeight = 500;
 
@@ -120,19 +119,19 @@ d3.csv("assets/data/data.csv").then(function(health) {
 
   var povertyLabel = labelsGroup.append("text")
     .attr("x", 0)
-    .attr("y", 40)
+    .attr("y", 20)
     .attr("value", "poverty") // value to grab for event listener
     // .classed("inactive", true)
-    .text("Poverty");
+    .text("Poverty(%)");
 
   // append y axis
   chartGroup.append("text")
     .attr("transform", "rotate(-90)")
-    .attr("y", 0 - margin.left)
+    .attr("y", 30 - margin.left)
     .attr("x", 0 - (height / 2))
     .attr("dy", "1em")
     .classed("axis-text", true)
-    .text("Healthcare");
+    .text("Lacks Healthcare(%)");
 
   // x axis labels event listener
   labelsGroup.selectAll("text")
@@ -144,9 +143,6 @@ d3.csv("assets/data/data.csv").then(function(health) {
         // replaces chosenXAxis with value
         chosenXAxis = value;
 
-        // console.log(chosenXAxis)
-
-        // functions here found above csv import
         // updates x scale for new data
         xLinearScale = xScale(health, chosenXAxis);
 
