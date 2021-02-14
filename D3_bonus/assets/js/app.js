@@ -96,6 +96,22 @@ function renderYCircles(circlesGroup, newYScale, chosenYAxis) {
   return circlesGroup;
 }
 
+function circleTextX (circleLabels, newXScale, chosenXAxis){
+  circleLabels.transition()
+    .duration(1000)
+    .attr("x", d => newXScale(d[chosenXAxis]));
+
+  return circleLabels;
+}
+
+function circleTextY (circleLabels, newYScale, chosenYAxis){
+  circleLabels.transition()
+    .duration(1000)
+    .attr("y", d => newYScale(d[chosenYAxis]));
+
+  return circleLabels;
+}
+
 // Retrieve data from the CSV file and execute everything below
 d3.csv("assets/data/data.csv").then(function(health) {
 
@@ -140,14 +156,14 @@ d3.csv("assets/data/data.csv").then(function(health) {
     .attr("r", 15)
     .attr("class", "stateCircle");
 
-  // var circleText = chartGroup.selectAll()
-  //   .data(health)
-  //   .enter()
-  //   .append("text")
-  //   .attr("x", d => xLinearScale(d[chosenXAxis]))
-  //   .attr("y", d => yLinearScale(d[chosenYAxis]))
-  //   .text(d => d.abbr)
-  //   .attr("class", "stateText");
+  var circleLabels = chartGroup.selectAll()
+    .data(health)
+    .enter()
+    .append("text")
+    .attr("x", d => xLinearScale(d[chosenXAxis]))
+    .attr("y", d => yLinearScale(d[chosenYAxis]))
+    .text(d => d.abbr)
+    .attr("class", "stateText");
 
   // Create group for x-axis labels
   var xLabelsGroup = chartGroup.append("g")
@@ -217,6 +233,8 @@ d3.csv("assets/data/data.csv").then(function(health) {
 
         // updates circles with new x values
         circlesGroup = renderXCircles(circlesGroup, xLinearScale, chosenXAxis);
+
+        circleLabels = circleTextX(circleLabels, xLinearScale, chosenXAxis);
         
         // changes classes to change bold text
         if (chosenXAxis === "income") {
@@ -272,6 +290,8 @@ d3.csv("assets/data/data.csv").then(function(health) {
 
       // updates circles with new x values
       circlesGroup = renderYCircles(circlesGroup, yLinearScale, chosenYAxis);
+
+      circleLabels = circleTextY(circleLabels, yLinearScale, chosenYAxis);
 
       // changes classes to change bold text
       if (chosenYAxis === "healthcare") {
